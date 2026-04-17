@@ -1,6 +1,21 @@
 /// <reference types="vite/client" />
 
 /**
+ * Vite 环境变量智能提示
+ */
+interface ImportMetaEnv {
+  readonly VITE_APP_TITLE: string
+  readonly VITE_APP_BASE_API: string
+  readonly VITE_APP_REQUEST_TIMEOUT: string
+  readonly VITE_APP_ENABLE_MOCK: string
+  readonly VITE_APP_ENABLE_VCONSOLE: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+
+/**
  * 声明 .vue 文件的模块类型，
  * 让 TypeScript 能够正确识别 import MyComponent from './MyComponent.vue' 这种语法。
  *
