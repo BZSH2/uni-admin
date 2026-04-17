@@ -1,0 +1,10 @@
+dist
+dist-*
+node_modules
+.hbuilderx
+**/*.svg
+**/*.sh
+public
+.github
+*.lock
+pnpm-lock.yaml

@@ -1,0 +1,7 @@
+dist
+dist-*
+node_modules
+.hbuilderx
+public
+**/*.svg
+**/*.sh
