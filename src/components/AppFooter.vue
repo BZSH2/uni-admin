@@ -1,15 +1,14 @@
 <script setup lang="ts">
-function handleClickGithub() {
-  if (window?.open) {
-    window.open('https://github.com/uni-helper/create-uni')
+  function handleClickGithub() {
+    if (window?.open) {
+      window.open('https://github.com/uni-helper/create-uni')
+    } else {
+      uni.showToast({
+        icon: 'none',
+        title: '请使用浏览器打开'
+      })
+    }
   }
-  else {
-    uni.showToast({
-      icon: 'none',
-      title: '请使用浏览器打开',
-    })
-  }
-}
 </script>
 
 <template>

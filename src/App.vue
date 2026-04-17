@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onLaunch } from '@dcloudio/uni-app'
+  import { onLaunch } from '@dcloudio/uni-app'
 
-onLaunch(() => {})
+  onLaunch(() => {})
 </script>
 
 <style lang="scss">
-@import '@climblee/uv-ui/index';
+  @import '@climblee/uv-ui/index';
 </style>

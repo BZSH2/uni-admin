@@ -1,9 +1,10 @@
+import 'uno.css'
+
 import uvUI from '@climblee/uv-ui'
 import * as Pinia from 'pinia'
 import { createSSRApp } from 'vue'
-import App from './App.vue'
 
-import 'uno.css'
+import App from './App.vue'
 
 export function createApp() {
   const app = createSSRApp(App)
@@ -11,6 +12,6 @@ export function createApp() {
   app.use(uvUI)
   return {
     app,
-    Pinia,
+    Pinia
   }
 }
