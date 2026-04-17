@@ -44,5 +44,11 @@
     "scss",
     "pcss",
     "postcss"
+  ],
+  "cSpell.words": [
+    "darkmode",
+    "quickapp",
+    "toutiao",
+    "weixin"
   ]
 }

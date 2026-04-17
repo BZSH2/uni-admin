@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@climblee/uv-ui": "^1.1.20",
     "@dcloudio/uni-app": "3.0.0-5000620260331001",
     "@dcloudio/uni-app-harmony": "3.0.0-5000620260331001",
     "@dcloudio/uni-app-plus": "3.0.0-5000620260331001",

@@ -4,4 +4,6 @@ import { onLaunch } from '@dcloudio/uni-app'
 onLaunch(() => {})
 </script>
 
-<style></style>
+<style lang="scss">
+@import '@climblee/uv-ui/index.scss';
+</style>
