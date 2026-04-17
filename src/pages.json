@@ -1,10 +1,4 @@
 {
-  "easycom": {
-    "autoscan": true,
-    "custom": {
-      "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
-    }
-  },
   "pages": [
     {
       "path": "pages/index",
@@ -20,6 +14,12 @@
     "navigationBarTextStyle": "@navTxtStyle",
     "navigationBarTitleText": "Uni Creator",
     "navigationStyle": "custom"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
+    }
   },
   "subPackages": []
 }

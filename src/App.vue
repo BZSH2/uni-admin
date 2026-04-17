@@ -5,5 +5,5 @@ onLaunch(() => {})
 </script>
 
 <style lang="scss">
-@import '@climblee/uv-ui/index.scss';
+@import '@climblee/uv-ui/index';
 </style>
