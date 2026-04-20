@@ -21,6 +21,7 @@
 开启了 `explorer.fileNesting.enabled`，将相关的配置文件折叠到对应的主文件下，保持左侧资源管理器的根目录清爽整洁。
 
 例如：
+
 - **`package.json`** 会收纳：`pnpm-lock.yaml`, `tsconfig.json`, `.npmrc`, `.gitignore` 等。
 - **`vite.config.ts`** 会收纳：`*.html`, `uno.config.ts`, `vitest.config.ts` 等。
 - **`eslint.config.ts`** 会收纳：`.eslintignore`, `.prettierrc.json`, `.stylelintrc.json`, `.commitlintrc.json` 等所有格式化配置文件。

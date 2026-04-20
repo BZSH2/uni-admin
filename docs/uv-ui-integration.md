@@ -6,6 +6,7 @@
 
 1. **按需引入 (easycom)**
    在 `src/pages.json` 中配置了 `easycom` 规则：
+
    ```json
    "easycom": {
      "autoscan": true,
@@ -14,10 +15,12 @@
      }
    }
    ```
+
    开发时可以直接在模板中使用 `<uv-button>`、`<uv-icon>` 等组件，无需手动 import 引入和注册。
 
 2. **全局样式引入**
    在 `src/App.vue` 中全局引入了 uv-ui 的基础样式：
+
    ```scss
    <style lang="scss">
    @import '@climblee/uv-ui/index.scss';

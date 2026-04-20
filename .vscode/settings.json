@@ -17,7 +17,7 @@
     "package.json": "pnpm-lock.yaml, tsconfig.*.json, tsconfig.json, .gitignore, .gitattributes, .npmrc",
     "vite.config.ts": "*.html, uno.config.ts, unh.config.ts, vitest.config.ts",
     "tsconfig.json": "tsconfig.*.json",
-    "eslint.config.ts": ".eslintignore, .prettierrc.json, .prettierignore, .stylelintrc.json, .stylelintignore, .commitlintrc.json, .lintstagedrc.json, .czrc",
+    "eslint.config.ts": ".eslintignore, .prettierrc.json, .prettierignore, .stylelintrc.json, .stylelintignore, .commitlintrc.json, .lintstagedrc.json, .czrc, .eslintrc-auto-import.json",
     "README.md": "*.md",
     ".env": ".env.*",
     "Dockerfile": ".dockerignore, docker-compose.prod.yml"

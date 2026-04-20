@@ -54,6 +54,7 @@ export default uniHelper({
     '@typescript-eslint/no-explicit-any': 'off', // 业务代码中无可避免会用到 any
     '@typescript-eslint/ban-ts-comment': 'off', // 允许 @ts-ignore 等注释
     '@typescript-eslint/no-non-null-assertion': 'off', // 允许 obj!.property 非空断言
+    'no-undef': 'off', // 结合 unplugin-auto-import 解决全局变量未定义报错
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

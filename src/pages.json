@@ -1,8 +1,30 @@
 {
   "pages": [
     {
-      "path": "pages/index",
-      "type": "home"
+      "path": "pages/login/index",
+      "aliasPath": "/login",
+      "type": "home",
+      "style": {
+        "h5": {
+          "alias": "/login"
+        }
+      }
+    },
+    {
+      "path": "pages/layout/index",
+      "style": {
+        "h5": {
+          "alias": "/layout"
+        }
+      }
+    },
+    {
+      "path": "pages/dashboard/index",
+      "style": {
+        "h5": {
+          "alias": "/dashboard"
+        }
+      }
     }
   ],
   "globalStyle": {

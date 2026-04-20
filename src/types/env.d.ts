@@ -4,6 +4,7 @@
  * Vite 环境变量智能提示
  */
 interface ImportMetaEnv {
+  readonly UNI_PLATFORM: string
   readonly VITE_APP_TITLE: string
   readonly VITE_APP_BASE_API: string
   readonly VITE_APP_REQUEST_TIMEOUT: string
