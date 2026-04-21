@@ -107,7 +107,14 @@ jobs:
       # 说明：当前模板自带的 vitest + uniapp 测试环境与现有依赖栈存在兼容性问题，
       # 先以 lint / type-check / build 作为主质量门，后续再单独收敛测试链路。
       - name: Build h5 app
-        run: pnpm build
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm build 2>&1 | tee .build.log
+          if grep -q 'Build failed' .build.log; then
+            echo 'H5 build reported failure.' >&2
+            exit 1
+          fi
 
       - name: Locate build output
         id: artifact
