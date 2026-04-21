@@ -1,29 +1,20 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import process from 'node:process'
-import { fileURLToPath } from 'node:url'
 
 import uniHelper from '@uni-helper/eslint-config'
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const eslintignorePath = path.resolve(__dirname, '.eslintignore')
-
-function getIgnores(filePath: string) {
-  try {
-    return fs
-      .readFileSync(filePath, 'utf-8')
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line && !line.startsWith('#'))
-  } catch {
-    return []
-  }
-}
-
 export default uniHelper({
-  ignores: getIgnores(eslintignorePath),
+  ignores: [
+    'dist',
+    'dist-*',
+    'node_modules',
+    '.hbuilderx',
+    'public',
+    '**/*.svg',
+    '**/*.sh',
+    '**/*.md'
+  ],
   plugins: {
     'simple-import-sort': simpleImportSort
   },
