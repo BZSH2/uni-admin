@@ -9,6 +9,7 @@
 - [代码规范与提交规范 (Linting & Formatting)](./docs/linting-and-formatting.md)
 - [编辑器配置 (Editor Setup)](./docs/editor-setup.md)
 - [UV-UI 集成说明 (UV-UI Integration)](./docs/uv-ui-integration.md)
+- [自动化部署说明 (Automation Deploy)](./docs/automation-deploy.md)
 
 ## 快速开始 (Getting Started)
 
@@ -32,3 +33,9 @@ pnpm dev
 git add .
 pnpm commit
 ```
+
+## 自动化部署
+
+项目已补充 GitHub Actions + ECS 静态部署骨架，说明见：
+
+- [自动化部署说明](./docs/automation-deploy.md)

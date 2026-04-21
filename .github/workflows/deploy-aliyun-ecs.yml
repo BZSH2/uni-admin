@@ -1,0 +1,235 @@
+name: Deploy H5 app to Aliyun ECS
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to deploy
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uni-admin-prod-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: https://${{ vars.ALIYUN_APP_DOMAIN || 'uni-admin.bzsh.fun' }}
+    env:
+      DEPLOY_PATH: ${{ vars.ALIYUN_DEPLOY_PATH || '/opt/uni-admin' }}
+      CONTAINER_NAME: ${{ vars.ALIYUN_CONTAINER_NAME || 'uni-admin' }}
+      HOST_PORT: ${{ vars.ALIYUN_HOST_PORT || '25003' }}
+      PORT_MAPPING: ${{ vars.ALIYUN_PORT_MAPPING || '127.0.0.1:25003:80' }}
+      APP_DOMAIN: ${{ vars.ALIYUN_APP_DOMAIN || 'uni-admin.bzsh.fun' }}
+      KEEP_RELEASES: ${{ vars.ALIYUN_KEEP_RELEASES || '5' }}
+      BUILD_ARCHIVE_NAME: uni-admin-h5.tar.gz
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || github.ref_name }}
+
+      - name: Resolve deploy context
+        id: context
+        shell: bash
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "short_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          echo "run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate deployment secrets
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_SSH_KEY: ${{ secrets.ALIYUN_ECS_SSH_KEY }}
+        shell: bash
+        run: |
+          test -n "$ALIYUN_ECS_HOST" || { echo 'Missing secret: ALIYUN_ECS_HOST'; exit 1; }
+          test -n "$ALIYUN_ECS_USER" || { echo 'Missing secret: ALIYUN_ECS_USER'; exit 1; }
+          test -n "$ALIYUN_ECS_SSH_KEY" || { echo 'Missing secret: ALIYUN_ECS_SSH_KEY'; exit 1; }
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Unit test
+        run: pnpm test --run
+
+      - name: Build h5 app
+        run: pnpm build
+
+      - name: Locate build output
+        id: artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          candidates=(
+            "dist/build/h5"
+            "dist/build/web"
+            "dist/h5"
+            "dist"
+            "build"
+          )
+
+          for dir in "${candidates[@]}"; do
+            if [ -f "$dir/index.html" ]; then
+              echo "build_dir=$dir" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+
+          match="$(find dist build -maxdepth 4 -type f -name index.html 2>/dev/null | head -n 1 || true)"
+          if [ -n "$match" ]; then
+            echo "build_dir=$(dirname "$match")" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo 'Unable to locate H5 build output directory.' >&2
+          find dist build -maxdepth 4 -type f 2>/dev/null | sort >&2 || true
+          exit 1
+
+      - name: Package build artifact
+        shell: bash
+        run: |
+          mkdir -p .deploy-artifacts
+          tar -C "${{ steps.artifact.outputs.build_dir }}" -czf ".deploy-artifacts/${BUILD_ARCHIVE_NAME}" .
+          (
+            cd .deploy-artifacts
+            sha256sum "${BUILD_ARCHIVE_NAME}" > "${BUILD_ARCHIVE_NAME}.sha256"
+          )
+
+      - name: Upload packaged artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: uni-admin-h5-${{ steps.context.outputs.short_sha }}
+          path: |
+            .deploy-artifacts/${{ env.BUILD_ARCHIVE_NAME }}
+            .deploy-artifacts/${{ env.BUILD_ARCHIVE_NAME }}.sha256
+          retention-days: 7
+
+      - name: Setup SSH key
+        env:
+          ALIYUN_ECS_SSH_KEY: ${{ secrets.ALIYUN_ECS_SSH_KEY }}
+        shell: bash
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$ALIYUN_ECS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      - name: Trust deploy host
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_PORT: ${{ vars.ALIYUN_ECS_PORT || '22' }}
+        shell: bash
+        run: |
+          ssh-keyscan -p "$ALIYUN_ECS_PORT" -H "$ALIYUN_ECS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Prepare remote deploy directory
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_PORT: ${{ vars.ALIYUN_ECS_PORT || '22' }}
+        shell: bash
+        run: |
+          ssh -p "$ALIYUN_ECS_PORT" "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST" \
+            "mkdir -p '${DEPLOY_PATH}/deploy' '${DEPLOY_PATH}/releases'"
+
+      - name: Upload deploy files
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_PORT: ${{ vars.ALIYUN_ECS_PORT || '22' }}
+        shell: bash
+        run: |
+          scp -P "$ALIYUN_ECS_PORT" deploy/docker-compose.prod.yml "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/docker-compose.prod.yml"
+          scp -P "$ALIYUN_ECS_PORT" deploy/deploy.sh "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/deploy.sh"
+          scp -P "$ALIYUN_ECS_PORT" deploy/rollback.sh "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/rollback.sh"
+          scp -P "$ALIYUN_ECS_PORT" deploy/list-releases.sh "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/list-releases.sh"
+          scp -P "$ALIYUN_ECS_PORT" deploy/nginx.conf "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/nginx.conf"
+          scp -P "$ALIYUN_ECS_PORT" deploy/Caddyfile.example "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/deploy/Caddyfile.example"
+          scp -P "$ALIYUN_ECS_PORT" ".deploy-artifacts/${BUILD_ARCHIVE_NAME}" "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/${BUILD_ARCHIVE_NAME}"
+          scp -P "$ALIYUN_ECS_PORT" ".deploy-artifacts/${BUILD_ARCHIVE_NAME}.sha256" "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/${BUILD_ARCHIVE_NAME}.sha256"
+
+      - name: Prepare remote deploy env
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_PORT: ${{ vars.ALIYUN_ECS_PORT || '22' }}
+        shell: bash
+        run: |
+          cat > .deploy.remote.env <<EOF
+          DEPLOY_PATH=${DEPLOY_PATH}
+          CONTAINER_NAME=${CONTAINER_NAME}
+          HOST_PORT=${HOST_PORT}
+          PORT_MAPPING=${PORT_MAPPING}
+          APP_DOMAIN=${APP_DOMAIN}
+          RELEASE_ID=${{ steps.context.outputs.sha }}
+          RELEASE_GIT_SHA=${{ steps.context.outputs.sha }}
+          RELEASE_GIT_REF=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.ref || github.ref_name }}
+          RELEASE_RUN_URL=${{ steps.context.outputs.run_url }}
+          BUILD_ARCHIVE_PATH=${DEPLOY_PATH}/${BUILD_ARCHIVE_NAME}
+          BUILD_ARCHIVE_SHA256_PATH=${DEPLOY_PATH}/${BUILD_ARCHIVE_NAME}.sha256
+          HEALTHCHECK_URL=http://127.0.0.1:${HOST_PORT}/healthz
+          KEEP_RELEASES=${KEEP_RELEASES}
+          EOF
+
+          scp -P "$ALIYUN_ECS_PORT" .deploy.remote.env "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST:${DEPLOY_PATH}/.deploy.remote.env"
+          rm -f .deploy.remote.env
+
+      - name: Deploy on server
+        env:
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_PORT: ${{ vars.ALIYUN_ECS_PORT || '22' }}
+        shell: bash
+        run: |
+          ssh -p "$ALIYUN_ECS_PORT" "$ALIYUN_ECS_USER@$ALIYUN_ECS_HOST" "
+            set -e
+            chmod +x \
+              '${DEPLOY_PATH}/deploy/deploy.sh' \
+              '${DEPLOY_PATH}/deploy/rollback.sh' \
+              '${DEPLOY_PATH}/deploy/list-releases.sh'
+            set -a
+            . '${DEPLOY_PATH}/.deploy.remote.env'
+            set +a
+            bash '${DEPLOY_PATH}/deploy/deploy.sh'
+            rm -f '${DEPLOY_PATH}/.deploy.remote.env'
+          "
+
+      - name: Deployment complete
+        shell: bash
+        run: |
+          echo "✅ uni-admin deployed successfully."
+          echo "Container: ${CONTAINER_NAME}"
+          echo "Host port: ${HOST_PORT}"
+          echo "Suggested public URL: https://${APP_DOMAIN}"
+          echo "Workflow run: ${{ steps.context.outputs.run_url }}"
