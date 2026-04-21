@@ -48,6 +48,7 @@
     "postcss"
   ],
   "cSpell.words": [
+    "autofocus",
     "automator",
     "autoscan",
     "climblee",
@@ -60,7 +61,9 @@
     "miniprogram",
     "njsproj",
     "ntvs",
+    "nvue",
     "quickapp",
+    "splashscreen",
     "stacktracey",
     "toutiao",
     "unconfig",
