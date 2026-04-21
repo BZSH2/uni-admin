@@ -72,7 +72,7 @@
 - `ALIYUN_CONTAINER_NAME`：容器名，默认 `uni-admin`
 - `ALIYUN_HOST_PORT`：容器映射到宿主机的端口，默认 `25003`
 - `ALIYUN_PORT_MAPPING`：完整端口映射，默认 `127.0.0.1:25003:80`
-- `ALIYUN_APP_DOMAIN`：对外访问域名，默认 `uni-admin.bzsh.fun`
+- `ALIYUN_APP_DOMAIN`：对外访问域名，默认 `m.bzsh.fun`
 - `ALIYUN_KEEP_RELEASES`：保留发布版本数，默认 `5`
 
 ## 服务器前置要求
@@ -120,7 +120,7 @@
 
 示例含义很简单：
 
-- 域名 `uni-admin.bzsh.fun`
+- 域名 `m.bzsh.fun`
 - 反代到 `127.0.0.1:25003`
 
 ## 回滚

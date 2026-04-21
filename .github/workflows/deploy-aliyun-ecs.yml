@@ -60,13 +60,13 @@ jobs:
     timeout-minutes: 30
     environment:
       name: production
-      url: https://${{ vars.ALIYUN_APP_DOMAIN || 'uni-admin.bzsh.fun' }}
+      url: https://${{ vars.ALIYUN_APP_DOMAIN || 'm.bzsh.fun' }}
     env:
       DEPLOY_PATH: ${{ vars.ALIYUN_DEPLOY_PATH || '/opt/uni-admin' }}
       CONTAINER_NAME: ${{ vars.ALIYUN_CONTAINER_NAME || 'uni-admin' }}
       HOST_PORT: ${{ vars.ALIYUN_HOST_PORT || '25003' }}
       PORT_MAPPING: ${{ vars.ALIYUN_PORT_MAPPING || '127.0.0.1:25003:80' }}
-      APP_DOMAIN: ${{ vars.ALIYUN_APP_DOMAIN || 'uni-admin.bzsh.fun' }}
+      APP_DOMAIN: ${{ vars.ALIYUN_APP_DOMAIN || 'm.bzsh.fun' }}
       KEEP_RELEASES: ${{ vars.ALIYUN_KEEP_RELEASES || '5' }}
       BUILD_ARCHIVE_NAME: uni-admin-h5.tar.gz
 
