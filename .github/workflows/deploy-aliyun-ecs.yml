@@ -20,7 +20,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_ready: ${{ steps.check.outputs.deploy_ready }}
+    steps:
+      - name: Check deploy prerequisites
+        id: check
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
+          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
+          ALIYUN_ECS_SSH_KEY: ${{ secrets.ALIYUN_ECS_SSH_KEY }}
+        shell: bash
+        run: |
+          missing=()
+          [ -n "$ALIYUN_ECS_HOST" ] || missing+=(ALIYUN_ECS_HOST)
+          [ -n "$ALIYUN_ECS_USER" ] || missing+=(ALIYUN_ECS_USER)
+          [ -n "$ALIYUN_ECS_SSH_KEY" ] || missing+=(ALIYUN_ECS_SSH_KEY)
+
+          if [ ${#missing[@]} -eq 0 ]; then
+            echo "deploy_ready=true" >> "$GITHUB_OUTPUT"
+            echo "Deploy prerequisites are ready."
+            exit 0
+          fi
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "Missing required deploy secrets: ${missing[*]}" >&2
+            exit 1
+          fi
+
+          echo "deploy_ready=false" >> "$GITHUB_OUTPUT"
+          echo "Skipping deploy on push because these secrets are missing: ${missing[*]}"
+
   deploy:
+    needs: preflight
+    if: needs.preflight.outputs.deploy_ready == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:
@@ -49,17 +84,6 @@ jobs:
           echo "short_sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
           echo "run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
 
-      - name: Validate deployment secrets
-        env:
-          ALIYUN_ECS_HOST: ${{ secrets.ALIYUN_ECS_HOST }}
-          ALIYUN_ECS_USER: ${{ secrets.ALIYUN_ECS_USER }}
-          ALIYUN_ECS_SSH_KEY: ${{ secrets.ALIYUN_ECS_SSH_KEY }}
-        shell: bash
-        run: |
-          test -n "$ALIYUN_ECS_HOST" || { echo 'Missing secret: ALIYUN_ECS_HOST'; exit 1; }
-          test -n "$ALIYUN_ECS_USER" || { echo 'Missing secret: ALIYUN_ECS_USER'; exit 1; }
-          test -n "$ALIYUN_ECS_SSH_KEY" || { echo 'Missing secret: ALIYUN_ECS_SSH_KEY'; exit 1; }
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -68,7 +92,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
