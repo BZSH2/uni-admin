@@ -118,9 +118,17 @@ jobs:
           candidates=(
             "dist/build/h5"
             "dist/build/web"
+            "dist/build"
+            "dist/dev/h5"
+            "dist/dev/web"
+            "dist/dev"
             "dist/h5"
-            "dist"
+            ".output/public"
+            ".output/h5"
+            "output/public"
+            "www"
             "build"
+            "dist"
           )
 
           for dir in "${candidates[@]}"; do
@@ -130,14 +138,23 @@ jobs:
             fi
           done
 
-          match="$(find dist build -maxdepth 4 -type f -name index.html 2>/dev/null | head -n 1 || true)"
+          match="$(find . \
+            -path './node_modules' -prune -o \
+            -path './.git' -prune -o \
+            -type f -name index.html \
+            ! -path './index.html' \
+            -print | sort | head -n 1 || true)"
           if [ -n "$match" ]; then
             echo "build_dir=$(dirname "$match")" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           echo 'Unable to locate H5 build output directory.' >&2
-          find dist build -maxdepth 4 -type f 2>/dev/null | sort >&2 || true
+          find . \
+            -path './node_modules' -prune -o \
+            -path './.git' -prune -o \
+            \( -type f -name index.html -o -path './dist/*' -o -path './build/*' -o -path './.output/*' \) \
+            -print | sort >&2 || true
           exit 1
 
       - name: Package build artifact
