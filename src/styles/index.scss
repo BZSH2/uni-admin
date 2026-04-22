@@ -1,0 +1,12 @@
+@import '@unocss/reset/tailwind-compat.css'; // 兼容版，适合大多数情况
+
+uni-page-body {
+  height: 100%;
+}
+
+[class$='-container'] {
+  height: 100%;
+  min-height: 0;
+  background: linear-gradient(180deg, #f6f9ff 0%, #eef5ff 100%);
+  box-sizing: border-box;
+}

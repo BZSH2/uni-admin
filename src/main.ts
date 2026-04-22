@@ -1,4 +1,5 @@
 import 'virtual:uno.css'
+import './styles/index.scss'
 
 import uvUI from '@climblee/uv-ui'
 import * as Pinia from 'pinia'

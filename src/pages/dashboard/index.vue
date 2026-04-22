@@ -1,5 +1,7 @@
+<script setup lang="ts"></script>
+
 <template>
-  <view px-10 py-20 text-center>
-    <view class="text-2xl font-bold">看板</view>
-  </view>
+  <view class="dashboard-container">1111</view>
 </template>
+
+<style lang="scss" scoped></style>

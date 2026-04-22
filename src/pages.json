@@ -3,6 +3,8 @@
     {
       "path": "pages/dashboard/index",
       "style": {
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "default",
         "h5": {
           "alias": "/dashboard"
         }
@@ -10,8 +12,8 @@
     },
     {
       "path": "pages/login/index",
-      "type": "home",
       "style": {
+        "navigationBarTitleText": "登录",
         "h5": {
           "alias": "/login"
         }
@@ -20,6 +22,7 @@
     {
       "path": "pages/setting/index",
       "style": {
+        "navigationBarTitleText": "设置",
         "h5": {
           "alias": "/setting"
         }
@@ -31,10 +34,10 @@
     "backgroundColorBottom": "@bgColorBottom",
     "backgroundColorTop": "@bgColorTop",
     "backgroundTextStyle": "@bgTxtStyle",
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTextStyle": "@navTxtStyle",
-    "navigationBarTitleText": "Uni Creator",
-    "navigationStyle": "custom"
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Uni Admin",
+    "enablePullDownRefresh": true
   },
   "easycom": {
     "autoscan": true,

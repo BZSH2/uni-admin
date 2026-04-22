@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: (typeof import('./../components/AppFooter.vue'))['default']
     AppLogos: (typeof import('./../components/AppLogos.vue'))['default']
+    IconFont: (typeof import('./../components/IconFont.vue'))['default']
     InputEntry: (typeof import('./../components/InputEntry.vue'))['default']
   }
 }
