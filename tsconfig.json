@@ -5,7 +5,6 @@
     "jsxImportSource": "vue",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "useDefineForClassFields": true,
-    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
@@ -15,6 +14,7 @@
     "types": [
       "vite/client",
       "@dcloudio/types",
+      "@tdesign/uniapp/global",
       "@mini-types/alipay",
       "miniprogram-api-typings",
       "@uni-helper/uni-types",

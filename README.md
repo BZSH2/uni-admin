@@ -8,7 +8,7 @@
 
 - [代码规范与提交规范 (Linting & Formatting)](./docs/linting-and-formatting.md)
 - [编辑器配置 (Editor Setup)](./docs/editor-setup.md)
-- [UV-UI 集成说明 (UV-UI Integration)](./docs/uv-ui-integration.md)
+- [TDesign UniApp 集成说明 (TDesign UniApp Integration)](./docs/tdesign-uniapp-integration.md)
 - [自动化部署说明 (Automation Deploy)](./docs/automation-deploy.md)
 
 ## 快速开始 (Getting Started)

@@ -7,9 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AppFooter: (typeof import('./../components/AppFooter.vue'))['default']
-    AppLogos: (typeof import('./../components/AppLogos.vue'))['default']
-    IconFont: (typeof import('./../components/IconFont.vue'))['default']
-    InputEntry: (typeof import('./../components/InputEntry.vue'))['default']
+    Header: (typeof import('./../components/Layout/Header.vue'))['default']
+    Layout: (typeof import('./../components/Layout/index.vue'))['default']
+    Nav: (typeof import('./../components/Layout/Nav.vue'))['default']
   }
 }

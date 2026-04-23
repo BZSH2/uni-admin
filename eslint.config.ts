@@ -23,6 +23,7 @@ export default uniHelper({
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
+    'antfu/if-newline': 'off',
     // === 字符与单双引号相关 ===
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }], // 强制使用单引号，允许字符串模板
     'jsx-quotes': ['error', 'prefer-single'], // JSX 中强制使用单引号

@@ -17,7 +17,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@climblee/uv-ui": "^1.1.20",
     "@dcloudio/uni-app": "3.0.0-5000620260331001",
     "@dcloudio/uni-app-harmony": "3.0.0-5000620260331001",
     "@dcloudio/uni-app-plus": "3.0.0-5000620260331001",
@@ -34,6 +33,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-5000620260331001",
     "@dcloudio/uni-mp-xhs": "3.0.0-5000620260331001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-5000620260331001",
+    "@tdesign/uniapp": "^0.8.1",
     "nprogress": "^0.2.0",
     "pinia": "2.2.4",
     "vue": "3.4.21",

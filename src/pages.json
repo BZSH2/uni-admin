@@ -4,18 +4,27 @@
       "path": "pages/dashboard/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "navigationStyle": "default",
+        "enablePullDownRefresh": true,
         "h5": {
           "alias": "/dashboard"
         }
       }
     },
     {
-      "path": "pages/login/index",
+      "path": "pages/user/index",
       "style": {
-        "navigationBarTitleText": "登录",
+        "navigationBarTitleText": "用户",
         "h5": {
-          "alias": "/login"
+          "alias": "/user"
+        }
+      }
+    },
+    {
+      "path": "pages/message/index",
+      "style": {
+        "navigationBarTitleText": "消息",
+        "h5": {
+          "alias": "/message"
         }
       }
     },
@@ -25,6 +34,15 @@
         "navigationBarTitleText": "设置",
         "h5": {
           "alias": "/setting"
+        }
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "h5": {
+          "alias": "/login"
         }
       }
     }
@@ -37,12 +55,12 @@
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "Uni Admin",
-    "enablePullDownRefresh": true
+    "navigationStyle": "custom"
   },
   "easycom": {
     "autoscan": true,
     "custom": {
-      "^uv-(.*)": "@climblee/uv-ui/components/uv-$1/uv-$1.vue"
+      "^t-(.*)": "@tdesign/uniapp/$1/$1.vue"
     }
   },
   "subPackages": []

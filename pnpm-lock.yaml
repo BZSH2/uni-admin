@@ -11,9 +11,6 @@ importers:
 
   .:
     dependencies:
-      '@climblee/uv-ui':
-        specifier: ^1.1.20
-        version: 1.1.20
       '@dcloudio/uni-app':
         specifier: 3.0.0-5000620260331001
         version: 3.0.0-5000620260331001(@dcloudio/types@3.4.28)(postcss@8.5.10)(rollup@4.60.1)(vue@3.4.21(typescript@5.9.3))
@@ -62,6 +59,9 @@ importers:
       '@dcloudio/uni-quickapp-webview':
         specifier: 3.0.0-5000620260331001
         version: 3.0.0-5000620260331001(postcss@8.5.10)(rollup@4.60.1)(vue@3.4.21(typescript@5.9.3))
+      '@tdesign/uniapp':
+        specifier: ^0.8.1
+        version: 0.8.1
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -912,9 +912,6 @@ packages:
 
   '@clack/prompts@1.2.0':
     resolution: {integrity: sha512-4jmztR9fMqPMjz6H/UZXj0zEmE43ha1euENwkckKKel4XpSfokExPo5AiVStdHSAlHekz4d0CA/r45Ok1E4D3w==}
-
-  '@climblee/uv-ui@1.1.20':
-    resolution: {integrity: sha512-jkyesHJsPJkF4Nap9ZmG1/ibKlxXA5M8+ntqKXwwloIsYSYL5SOKb0gyPj17aBOU1PkJpmeiZ8PwnTolhK2/HA==}
 
   '@colors/colors@1.6.0':
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -1943,6 +1940,9 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
+
+  '@tdesign/uniapp@0.8.1':
+    resolution: {integrity: sha512-zYKIkgulDg4i4h6o+wIbA9kSKM9l6x6RtuvbaQwJ3NjbwbeB573BuwjsiMzjkWpl6AzajX0rEjwFBMgqABKPeA==}
 
   '@tootallnate/once@1.1.2':
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
@@ -7927,8 +7927,6 @@ snapshots:
       fast-wrap-ansi: 0.1.6
       sisteransi: 1.0.5
 
-  '@climblee/uv-ui@1.1.20': {}
-
   '@colors/colors@1.6.0': {}
 
   '@commitlint/cli@20.5.0(@types/node@25.6.0)(conventional-commits-parser@6.4.0)(typescript@5.9.3)':
@@ -9617,6 +9615,8 @@ snapshots:
       espree: 10.4.0
       estraverse: 5.3.0
       picomatch: 4.0.4
+
+  '@tdesign/uniapp@0.8.1': {}
 
   '@tootallnate/once@1.1.2': {}
 

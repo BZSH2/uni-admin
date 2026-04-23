@@ -14,7 +14,3 @@
     console.error('【App 全局级异常】', err)
   })
 </script>
-
-<style lang="scss">
-  @import '@climblee/uv-ui/index';
-</style>
