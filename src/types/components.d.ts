@@ -14,6 +14,7 @@ declare module 'vue' {
     Layout: (typeof import('./../components/Layout/index.vue'))['default']
     LineChart: (typeof import('./../components/Dashboard/LineChart.vue'))['default']
     Nav: (typeof import('./../components/Layout/Nav.vue'))['default']
+    PieChart: (typeof import('./../components/Dashboard/PieChart.vue'))['default']
     RaddarChart: (typeof import('./../components/Dashboard/RaddarChart.vue'))['default']
     TopSwiper: (typeof import('./../components/Dashboard/TopSwiper.vue'))['default']
   }

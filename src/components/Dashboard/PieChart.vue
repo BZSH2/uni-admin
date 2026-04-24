@@ -36,76 +36,31 @@
     if (!chartInstance) return
 
     chartInstance.setOption({
-      grid: {
-        top: 0,
-        left: 10,
-        right: 10,
-        bottom: 50,
-        containLabel: true
-      },
       tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          // 坐标轴指示器，坐标轴触发有效
-          type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-        }
-      },
-      radar: {
-        radius: '56%',
-        center: ['50%', '42%'],
-        splitNumber: 8,
-        splitArea: {
-          areaStyle: {
-            color: 'rgba(127,95,132,.3)',
-            opacity: 1,
-            shadowBlur: 45,
-            shadowColor: 'rgba(0,0,0,.5)',
-            shadowOffsetX: 0,
-            shadowOffsetY: 15
-          }
-        },
-        indicator: [
-          { name: 'Sales', max: 10000 },
-          { name: 'Administration', max: 20000 },
-          { name: 'Information', max: 20000 },
-          { name: 'Customer Support', max: 20000 },
-          { name: 'Development', max: 20000 },
-          { name: 'Marketing', max: 20000 }
-        ]
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
       legend: {
         left: 'center',
         bottom: '10',
-        data: ['Allocated', 'Expected', 'Actual']
+        data: ['Industries', 'Technology', 'Forex', 'Gold', 'For']
       },
       series: [
         {
-          type: 'radar',
-          symbolSize: 0,
-          areaStyle: {
-            normal: {
-              shadowBlur: 13,
-              shadowColor: 'rgba(0,0,0,.2)',
-              shadowOffsetX: 0,
-              shadowOffsetY: 10,
-              opacity: 1
-            }
-          },
+          name: 'WEEKLY WRITE ARTICLES',
+          type: 'pie',
+          roseType: 'radius',
+          radius: [15, 95],
+          center: ['50%', '38%'],
           data: [
-            {
-              value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated'
-            },
-            {
-              value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected'
-            },
-            {
-              value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual'
-            }
+            { value: 320, name: 'Industries' },
+            { value: 240, name: 'Technology' },
+            { value: 149, name: 'Forex' },
+            { value: 100, name: 'Gold' },
+            { value: 59, name: 'For' }
           ],
-          animationDuration: 3000
+          animationEasing: 'cubicInOut',
+          animationDuration: 2600
         }
       ]
     })
@@ -134,15 +89,15 @@
 </script>
 
 <template>
-  <view :class="className" class="raddar-chart" :style="{ height }">
-    <ChartTitle title="雷达图" />
+  <view :class="className" class="pie-chart" :style="{ height }">
+    <ChartTitle title="饼图" />
     <!-- 图表容器，必须指定宽高 -->
     <div ref="chartRef" class="chart-container" />
   </view>
 </template>
 
 <style lang="scss" scoped>
-  .raddar-chart {
+  .pie-chart {
     background: #ffffff;
     border-radius: $uni-radius;
     margin: $uni-margin $uni-margin 0;

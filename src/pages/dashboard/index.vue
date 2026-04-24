@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import Card from '@/components/Dashboard/Card.vue'
   import LineChart from '@/components/Dashboard/LineChart.vue'
+  import PieChart from '@/components/Dashboard/PieChart.vue'
   import RaddarChart from '@/components/Dashboard/RaddarChart.vue'
   import TopSwiper from '@/components/Dashboard/TopSwiper.vue'
   import Layout from '@/components/Layout/index.vue'
@@ -35,11 +36,12 @@
 </script>
 
 <template>
-  <Layout :show-header="false">
+  <Layout :show-header="false" :show-nav="true">
     <TopSwiper />
     <Card :active="activeIndex" @change-active="changeActive" />
     <LineChart :chart-data="lineChartData[activeIndex]" :auto-resize="true" />
     <RaddarChart />
+    <PieChart />
   </Layout>
 </template>
 

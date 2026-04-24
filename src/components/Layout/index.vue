@@ -36,10 +36,16 @@
         <slot name="header-right" />
       </template>
     </Header>
-    <view class="layout-content" :style="{ paddingTop: props.top || (showHeader ? '80rpx' : '0') }">
+    <view
+      class="layout-content"
+      :style="{
+        paddingTop: props.top || (showHeader ? '80rpx' : '0'),
+        paddingBottom: props.showNav ? '132rpx' : '0'
+      }"
+    >
       <slot></slot>
     </view>
-    <Nav />
+    <Nav v-if="props.showNav" />
   </view>
 </template>
 
