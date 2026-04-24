@@ -9,9 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     Card: (typeof import('./../components/Dashboard/Card.vue'))['default']
     CardItem: (typeof import('./../components/Dashboard/CardItem.vue'))['default']
+    ChartTitle: (typeof import('./../components/Dashboard/ChartTitle.vue'))['default']
     Header: (typeof import('./../components/Layout/Header.vue'))['default']
     Layout: (typeof import('./../components/Layout/index.vue'))['default']
+    LineChart: (typeof import('./../components/Dashboard/LineChart.vue'))['default']
     Nav: (typeof import('./../components/Layout/Nav.vue'))['default']
+    RaddarChart: (typeof import('./../components/Dashboard/RaddarChart.vue'))['default']
     TopSwiper: (typeof import('./../components/Dashboard/TopSwiper.vue'))['default']
   }
 }

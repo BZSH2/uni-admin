@@ -64,7 +64,7 @@
   .swiper-item-content {
     height: 100%;
     width: 100%;
-    border-radius: 16rpx;
+    border-radius: $uni-radius;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -34,6 +34,7 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-5000620260331001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-5000620260331001",
     "@tdesign/uniapp": "^0.8.1",
+    "echarts": "^6.0.0",
     "nprogress": "^0.2.0",
     "pinia": "2.2.4",
     "vue": "3.4.21",

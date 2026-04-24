@@ -4,7 +4,9 @@
       title: string
       content: string
       icon: string
+      color: string
     }
+    active: boolean
   }>()
 </script>
 
@@ -12,7 +14,9 @@
   <t-col span="12" class="mb-12rpx">
     <view class="card-item">
       <view class="card-text">
-        <view class="card-title">{{ item.title }}</view>
+        <view class="card-title" :style="{ color: active ? item.color : '' }">
+          {{ item.title }}
+        </view>
         <view class="card-content">{{ item.content }}</view>
       </view>
       <view class="card-icon">
@@ -32,37 +36,34 @@
     border-radius: $uni-radius;
     position: relative;
     overflow: hidden;
-    padding: 60rpx 0;
+    padding: 30rpx 0;
 
     .card-text {
-      padding-left: 30rpx;
+      margin-left: 12rpx;
+      border-radius: $uni-radius;
+      padding-left: $uni-padding;
+      padding-bottom: $uni-padding;
 
       .card-title {
         font-size: 32rpx;
         font-weight: bold;
         color: #333333;
-        margin-bottom: 12rpx;
+        margin: 12rpx 0 6rpx;
+        padding: 0 12rpx;
       }
 
       .card-content {
         font-size: 24rpx;
         color: #666666;
-        margin-bottom: 12rpx;
-      }
-
-      .card-icon {
-        position: absolute;
-        top: -100rpx;
-        right: 0rpx;
-        width: 240rpx;
+        padding-left: $uni-padding;
       }
     }
 
     .card-icon-image {
       position: absolute;
-      top: -100rpx;
-      right: 0rpx;
-      width: 240rpx;
+      top: -110rpx;
+      right: 20rpx;
+      width: 180rpx;
     }
   }
 </style>
