@@ -1,24 +1,27 @@
 <script lang="ts" setup>
+  import { getNowRoute } from '@/utils/pages'
+
+  const route = getNowRoute()
   const navItems = ref([
     {
       icon: '/static/icon/nav/dashboard.svg',
       text: '首页',
-      path: '/pages/dashboard/index'
+      path: 'pages/dashboard/index'
     },
     {
       icon: '/static/icon/nav/user.svg',
       text: '用户',
-      path: '/pages/user/index'
+      path: 'pages/user/index'
     },
     {
       icon: '/static/icon/nav/message.svg',
       text: '消息',
-      path: '/pages/message/index'
+      path: 'pages/message/index'
     },
     {
       icon: '/static/icon/nav/setting.svg',
       text: '设置',
-      path: '/pages/setting/index'
+      path: 'pages/setting/index'
     }
   ])
 
@@ -35,6 +38,7 @@
       v-for="item in navItems"
       :key="item.text"
       class="layout-nav-item"
+      :class="{ active: item.path === route }"
       @click="handleClick(item.path)"
     >
       <view class="layout-nav-item-icon-container">
@@ -54,7 +58,7 @@
     right: 0;
     height: 120rpx;
     background: #ffffff;
-    box-shadow: 2rpx 4rpx 0 rgb(0, 0, 0, 10%);
+    box-shadow: 0 50px 100px -12px #0000001a;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -65,6 +69,10 @@
       align-items: center;
       flex-direction: column;
       flex: 1;
+
+      &.active {
+        color: $uni-color-primary;
+      }
     }
 
     .layout-nav-item-icon-container {

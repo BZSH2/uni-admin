@@ -1,11 +1,17 @@
 <script setup lang="ts">
+  import Card from '@/components/Dashboard/Card.vue'
+  import TopSwiper from '@/components/Dashboard/TopSwiper.vue'
   import Layout from '@/components/Layout/index.vue'
+
+  onPullDownRefresh(() => {
+    uni.stopPullDownRefresh()
+  })
 </script>
 
 <template>
-  <Layout title="首页" :show-nav="true">
-    <template #header-right>1111</template>
-    <view class="dashboard-container">1111</view>
+  <Layout :show-header="false">
+    <TopSwiper />
+    <Card />
   </Layout>
 </template>
 

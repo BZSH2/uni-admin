@@ -7,8 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Card: (typeof import('./../components/Dashboard/Card.vue'))['default']
+    CardItem: (typeof import('./../components/Dashboard/CardItem.vue'))['default']
     Header: (typeof import('./../components/Layout/Header.vue'))['default']
     Layout: (typeof import('./../components/Layout/index.vue'))['default']
     Nav: (typeof import('./../components/Layout/Nav.vue'))['default']
+    TopSwiper: (typeof import('./../components/Dashboard/TopSwiper.vue'))['default']
   }
 }

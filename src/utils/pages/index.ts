@@ -8,7 +8,7 @@ import pagesJson from '@/pages.json'
  * 获取当前页面路径
  * @returns {string} 返回当前页面路由路径，如 'pages/dashboard/index'
  */
-function getNowRoute(): string {
+export function getNowRoute(): string {
   const pages = getCurrentPages()
   const length = pages.length
   if (!length) {
